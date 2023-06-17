@@ -6,8 +6,9 @@ import lombok.Data;
 public class UserVO {
 
   private int userId;
-  private String password;
   private String userName;
-  private String auth;
+  private String userMobile;
+  private String userAddress;
+  private String userPassword;
 
 }

@@ -1,20 +1,12 @@
 package com.schedule.schedulekyg.repository;
 
 import com.schedule.schedulekyg.vo.user.UserVO;
+import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+@Mapper
 @Repository
-public class UserRepository {
+public interface UserRepository {
+  UserVO getUserInfo();
 
-
-  public UserVO getUserInfo() {
-
-    UserVO userVO = new UserVO();
-    userVO.setUserId(0);
-    userVO.setUserName("USER");
-    userVO.setAuth("ADMIN");
-    userVO.setPassword("1234");
-
-    return userVO;
-  }
 }
