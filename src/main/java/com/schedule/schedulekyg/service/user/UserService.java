@@ -4,13 +4,14 @@ import com.schedule.schedulekyg.repository.UserRepository;
 import com.schedule.schedulekyg.vo.user.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Bean;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -18,24 +19,22 @@ import org.springframework.stereotype.Service;
 public class UserService implements UserDetailsService {
 
   private final UserRepository userRepository;
-
+  private final PasswordEncoder passwordEncoder;
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-    UserVO userInfo = this.userRepository.getUserInfo();
-    log.info("userInfo :::: "+ userInfo.toString());
+    final UserVO userInfo = this.userRepository.getUserInfo(username);
 
-    log.info("loadUserByUsername ::: " + username);
-
-
+    if(!Objects.isNull(userInfo)) {
+      return User.builder()
+              .username(userInfo.getUserName())
+              .password(userInfo.getUserPassword())
+              .roles("ADMIN")
+              .build();
+    }
 
     return null;
-  }
-
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
 }

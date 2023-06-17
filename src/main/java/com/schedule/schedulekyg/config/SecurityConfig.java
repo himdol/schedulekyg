@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -18,24 +20,30 @@ public class SecurityConfig {
       .csrf().disable()
       .headers().frameOptions().disable()
       .and()
-        .authorizeRequests()
-        .antMatchers("/login"
-                , "/vendor/**"
-                , "/scss/**"
-                , "/css/**"
-                , "/img/**"
-                , "/js/**").permitAll()
-//            .antMatchers("/**").hasRole("ADMIN")
-        .anyRequest().authenticated()
+      .authorizeRequests()
+      .antMatchers("/login"
+              , "/vendor/**"
+              , "/scss/**"
+              , "/css/**"
+              , "/img/**"
+              , "/js/**").permitAll()
+  //            .antMatchers("/**").hasRole("ADMIN")
+      .anyRequest().authenticated()
       .and()
-        .formLogin()
-        .loginPage("/login")
-        .loginProcessingUrl("/loginProc")
-        .defaultSuccessUrl("/")
+      .formLogin()
+      .loginPage("/login")
+      .loginProcessingUrl("/loginProc")
+      .defaultSuccessUrl("/")
       .and()
-        .logout()
-        .logoutSuccessUrl("/login");
+      .logout()
+      .logoutSuccessUrl("/login")
+      .deleteCookies("JSESSIONID");
     return http.build();
+  }
+
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
   // 인증 담당

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 @Repository
 public interface UserRepository {
-  UserVO getUserInfo();
+  UserVO getUserInfo(String userName);
 
 }
