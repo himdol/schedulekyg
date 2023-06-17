@@ -34,6 +34,7 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16"
     implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 }
 
