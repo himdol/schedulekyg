@@ -77,4 +77,9 @@ public class MenuController {
     public String showTablesPage() {
         return "/tables";
     }
+
+    @GetMapping("/setting")
+    public String showSettingPage() {
+        return "/setting";
+    }
 }
