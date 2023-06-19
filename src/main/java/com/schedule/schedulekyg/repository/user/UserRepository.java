@@ -1,4 +1,4 @@
-package com.schedule.schedulekyg.repository;
+package com.schedule.schedulekyg.repository.user;
 
 import com.schedule.schedulekyg.vo.user.UserVO;
 import org.apache.ibatis.annotations.Mapper;

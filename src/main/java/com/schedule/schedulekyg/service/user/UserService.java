@@ -1,6 +1,6 @@
 package com.schedule.schedulekyg.service.user;
 
-import com.schedule.schedulekyg.repository.UserRepository;
+import com.schedule.schedulekyg.repository.user.UserRepository;
 import com.schedule.schedulekyg.vo.user.UserVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

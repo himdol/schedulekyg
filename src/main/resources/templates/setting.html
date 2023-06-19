@@ -260,25 +260,17 @@
           </li>
         </ul>
 
+
+
         <div class="row mt-3">
           <div class="col-4">
-            <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+            <div class="border-left-primary bg-white card-body">
               <div id="jstree">
-                <!-- in this example the tree is populated from inline HTML -->
-                <ul>
-                  <li>Root node 1
-                    <ul>
-                      <li id="child_node_1">Child node 1</li>
-                      <li>Child node 2</li>
-                    </ul>
-                  </li>
-                  <li>Root node 2</li>
-                </ul>
               </div>
             </div>
           </div>
           <div class="col ">
-            <div class="p-3 text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-3">
+            <div class="border-left-primary bg-white card-body">
               1
             </div>
           </div>
@@ -349,19 +341,50 @@
 <script src="/js/demo/datatables-demo.js"></script>
 <script>
   $(function () {
+    $.ajax({
+      type: "POST",
+      url: "/menu/rest/category",
+      contentType : "application/x-www-form-urlencoded;charset=UTF-8",
+      error: function() {
+        console.log('통신실패!!');
+      },
+      success: function(result) {
+        let core = [];
+        let rootParent = "#";
+        result.forEach(elem => {
+          if (elem.parent == "CATE00A000") {
+            elem.parent = rootParent;
+          }
+          let data = {
+            id: elem.categoryId,
+            parent: elem.parent,
+            text: elem.categoryName
+          };
+          core.push(data);
+        });
+
+        $('#jstree').jstree({
+          "core": {
+            "data": core
+          }
+        });
+      }
+    });
+
     // 6 create an instance when the DOM is ready
-    $('#jstree').jstree();
+
     // 7 bind to events triggered on the tree
-    $('#jstree').on("changed.jstree", function (e, data) {
-      console.log(data.selected);
-    });
-    // 8 interact with the tree - either way is OK
-    $('button').on('click', function () {
-      $('#jstree').jstree(true).select_node('child_node_1');
-      $('#jstree').jstree('select_node', 'child_node_1');
-      $.jstree.reference('#jstree').select_node('child_node_1');
-    });
+    // $('#jstree').on("changed.jstree", function (e, data) {
+    //   console.log(data.selected);
+    // });
+    // // 8 interact with the tree - either way is OK
+    // $('button').on('click', function () {
+    //   $('#jstree').jstree(true).select_node('child_node_1');
+    //   $('#jstree').jstree('select_node', 'child_node_1');
+    //   $.jstree.reference('#jstree').select_node('child_node_1');
+    // });
   });
+
 </script>
 </body>
 
