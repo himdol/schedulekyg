@@ -21,6 +21,8 @@
     <link href="/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.2.0/kakao.min.js"
+        integrity="sha384-x+WG2i7pOR+oWb6O5GV5f1KN2Ko6N7PTGPS7UlasYWNxZMKQA63Cj/B2lbUmUfuC" crossorigin="anonymous"></script>
 
 <body id="page-top">
 
@@ -256,6 +258,10 @@
                                 <div class="card-header py-3">
                                     <h6 class="m-0 font-weight-bold text-primary">Circle Buttons</h6>
                                 </div>
+                                <a id="kakaotalk-sharing-btn" href="javascript:shareMessage()">
+                                    <img src="https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png"
+                                         alt="카카오톡 공유 보내기 버튼" />
+                                </a>
                                 <div class="card-body">
                                     <p>Use Font Awesome Icons (included with this theme package) along with the circle
                                         buttons as shown in the examples below!</p>
@@ -478,7 +484,38 @@
 
     <!-- Custom scripts for all pages-->
     <script src="/js/sb-admin-2.min.js"></script>
-
+    <script>
+        Kakao.init('73ceb34d8121c446bf079ef702c20600'); // 사용하려는 앱의 JavaScript 키 입력
+    </script>
+    <script>
+        function shareMessage() {
+            var code = "12345"
+            console.log("shareMessage")
+            Kakao.Share.sendDefault({
+                objectType: 'feed',
+                content: {
+                    title: '커스텀미 친구 초대 이벤트 5000+20!',
+                    description: '가입 시 추천인 코드 ' + code + ' 입력하면 5천원\n할인쿠폰과 20% 할인 쿠폰 모두 증정',
+                    imageUrl:
+                        'http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png',
+                    link: {
+                        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                        mobileWebUrl: 'https://www.customme.com/evnt/list',
+                        webUrl: 'https://www.customme.com/evnt/list',
+                    },
+                },
+                buttons: [
+                    {
+                        title: '가입하고 혜택 받기',
+                        link: {
+                            mobileWebUrl: 'https://www.customme.com/evnt/list',
+                            webUrl: 'https://www.customme.com',
+                        },
+                    },
+                ],
+            });
+        }
+    </script>
 </body>
 
 </html>
