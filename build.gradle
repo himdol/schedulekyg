@@ -20,6 +20,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -35,7 +36,14 @@ dependencies {
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     runtimeOnly 'mysql:mysql-connector-java:8.0.25'
     implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4:1.16"
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.3.2'
+    implementation group: 'org.json', name: 'json', version: '20090211'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+    implementation group: 'org.kohsuke', name: 'github-api', version: '1.303'
+    implementation 'com.github.drapostolos:type-parser:0.3.0'
     implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
 }
 
 tasks.named('test') {
