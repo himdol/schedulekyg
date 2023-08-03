@@ -21,25 +21,11 @@
 </head>
 
 <body id="page-top">
-
-<!-- Page Wrapper -->
 <div id="wrapper">
-
-  <!-- Sidebar -->
   <div th:replace="~{fragments/nav.html :: fragment-nav}"></div>
-  <!-- End of Sidebar -->
-
-  <!-- Content Wrapper -->
   <div id="content-wrapper" class="d-flex flex-column">
-
-    <!-- Main Content -->
     <div id="content">
-
-      <!-- Topbar -->
       <nav th:replace="~{fragments/topbar.html :: fragment-topbar}"></nav>
-      <!-- End of Topbar -->
-
-      <!-- Begin Page Content -->
       <div class="container-fluid">
 
         <!-- Page Heading -->
@@ -59,18 +45,45 @@
           </li>
         </ul>
 
-
-
         <div class="row mt-3">
           <div class="col-4">
             <div class="border-left-primary bg-white card-body">
-              <div id="jstree">
+              <div id="tree">
               </div>
             </div>
           </div>
-          <div class="col ">
-            <div class="border-left-primary bg-white card-body">
-              1
+          <div class="col">
+            <div class="border-left-primary bg-white card-body container">
+              <div class="row">
+                <div class="col-sm-8">
+                  <h3 id="sysSetTitle">title</h3>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-right">
+                    <a href="#" class="btn btn-success btn-icon-split disabled" id="saveInfo">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-check"></i>
+                    </span>
+                      <span class="text">저장</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="row text-center mt-5">
+                <div class="input-group mb-3">
+                  <label class="input-group-text" for="selectDeps">Deps</label>
+                  <select class="form-select" id="selectDeps">
+                    <option selected>폴더를 선택해주세요.</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
+                </div>
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Domain</span>
+                  <input type="text" class="form-control" aria-label="Sizing example input" id="categoryPath">
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -121,25 +134,20 @@
   </div>
 </div>
 
-<!-- Bootstrap core JavaScript-->
 <script src="/vendor/jquery/jquery.min.js"></script>
 <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-<!-- Core plugin JavaScript-->
 <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-
-<!-- Custom scripts for all pages-->
 <script src="/js/sb-admin-2.min.js"></script>
-
-<!-- Page level plugins -->
 <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
 <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
-<!-- Page level custom scripts -->
 <script src="/js/demo/datatables-demo.js"></script>
 <script>
   $(function () {
+
+    $("#sysSetTitle").text("폴더를 선택해주세요.");
+
     $.ajax({
       type: "POST",
       url: "/menu/rest/category",
@@ -151,24 +159,49 @@
         let core = [];
         let rootParent = "#";
         result.forEach(elem => {
-          if (elem.parent == "CATE00A000") {
+          if (elem.parent === "CATE00A000") {
             elem.parent = rootParent;
           }
           let data = {
             id: elem.categoryId,
             parent: elem.parent,
-            text: elem.categoryName
+            text: elem.categoryName,
+            data: {
+              path: elem.categoryPath,
+              depth: elem.depth
+            }
           };
           core.push(data);
         });
 
-        $('#jstree').jstree({
+        $('#tree').jstree({
           "core": {
             "data": core
           }
         });
       }
     });
+
+    // 클릭시
+    $('#tree').on("changed.jstree", function (e, data) {
+
+      $("#saveInfo").removeClass("disabled")
+      $("#sysSetTitle").text(data.node.text);
+
+      if(data.node.data.depth > 1) {
+        $("#categoryPath").val(data.node.data.path);
+      } else {
+        $("#categoryPath").val("최상위 폴더입니다. url이 필요없습니다.");
+      }
+      console.log(data.selected);
+    });
+
+    $("#saveInfo").click(function () {
+      console.log("awesome")
+    })
+
+
+
 
     // 6 create an instance when the DOM is ready
 
